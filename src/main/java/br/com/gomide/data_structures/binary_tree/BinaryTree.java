@@ -92,14 +92,49 @@ public class BinaryTree<T extends Comparable<T>> implements IBinaryTree<T> {
 			}
 		}
 	}
-
+	
+	//não passou ao tentar remover o raiz 
 	@Override
 	public boolean remove(Node<T> rootNode, T nodeElement) {
-		
-		
-		
-		return false;
+	    Node<T> node = delete(rootNode, nodeElement);
+		if(node ==null) return false;
+		else
+		return true;
 	}
+	
+	 private Node delete(Node<T> rootNode, T nodeElement)
+	    {
+	        if (rootNode == null)
+	            return rootNode;
+	  
+	        if (nodeElement.compareTo(rootNode.getValue()) == -1)
+	            rootNode.setLeft(delete(rootNode.getLeft(), nodeElement));
+	        else if (nodeElement.compareTo(rootNode.getValue()) == 1)
+	            rootNode.setRight(delete(rootNode.getRight(), nodeElement));
+	  
+	        else {
+	            if (rootNode.getLeft() == null)
+	                return rootNode.getRight();
+	            else if (rootNode.getRight() == null)
+	                return rootNode.getLeft();
+	            rootNode.setValue(valorMin(rootNode.getRight()));
+	            rootNode.setRight(delete(rootNode.getRight(), rootNode.getValue()));
+	        }
+	        return rootNode;
+	    }
+	 
+    	private T valorMin(Node<T> root)
+    	    {
+    	        T minv = root.getValue();
+    	        while (root.getLeft()!= null) 
+    	        {
+    	            minv = root.getLeft().getValue();
+    	            root = root.getLeft();
+    	        }
+    	        return minv;
+    	    }
+	
+	
 	
 	@Override
 	public Node<T> getFather(Node<T> rootNode, T nodeElement) {
