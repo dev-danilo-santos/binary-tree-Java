@@ -29,8 +29,50 @@ public class BinaryTree<T extends Comparable<T>> implements IBinaryTree<T> {
 
 	@Override
 	public Integer degree(Node<T> rootNode, T nodeElement) {
-		// TODO Auto-generated method stub
-		return null;
+	    System.out.println(verifica(rootNode, nodeElement));
+	    Integer level = 0;
+		if(rootNode == null || nodeElement == null) return null;
+		Node<T> left = rootNode.getLeft();
+		Node<T> right = rootNode.getRight();
+		
+		if(rootNode.getValue() == nodeElement) {
+		    if ( rootNode.getLeft() != null ) {
+		        level+=1;
+		    }
+		    if ( rootNode.getRight() != null ) {
+                level+=1;
+            }
+		    
+		    return level;
+		}
+		if(left != null) {
+		    level += degree(rootNode.getLeft(), nodeElement);
+		}
+		
+		if (right != null) {
+		    level += degree(rootNode.getRight(), nodeElement);
+		}
+		return level;
+	}
+	
+	private boolean verifica(Node<T> rootNode, T nodeElement) {
+	    boolean ver = false;
+	    if(rootNode == null || nodeElement == null) return false;
+        Node<T> left = rootNode.getLeft();
+        Node<T> right = rootNode.getRight();
+        
+        if(rootNode.getValue() == nodeElement) {
+            ver = true;
+            return ver;
+        }
+        if(left != null) {
+            ver = verifica(rootNode.getLeft(), nodeElement);
+        }
+        
+        if (right != null) {
+            ver = verifica(rootNode.getRight(), nodeElement);
+        }
+        return ver;
 	}
 
 	@Override
