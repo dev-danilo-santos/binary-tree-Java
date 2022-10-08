@@ -1,8 +1,5 @@
 package br.com.gomide.data_structures.binary_tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BinaryTree<T extends Comparable<T>> implements IBinaryTree<T> {
 	private Node<T> raiz = null;
 	
@@ -29,50 +26,38 @@ public class BinaryTree<T extends Comparable<T>> implements IBinaryTree<T> {
 
 	@Override
 	public Integer degree(Node<T> rootNode, T nodeElement) {
-	    System.out.println(verifica(rootNode, nodeElement));
 	    Integer level = 0;
-		if(rootNode == null || nodeElement == null) return null;
 		Node<T> left = rootNode.getLeft();
 		Node<T> right = rootNode.getRight();
 		
 		if(rootNode.getValue() == nodeElement) {
-		    if ( rootNode.getLeft() != null ) {
+		    if ( left != null ) {
 		        level+=1;
 		    }
-		    if ( rootNode.getRight() != null ) {
+		    if ( right != null ) {
                 level+=1;
             }
 		    
 		    return level;
 		}
-		if(left != null) {
-		    level += degree(rootNode.getLeft(), nodeElement);
+		else {
+		    
+		    if(rootNode.getValue().compareTo(nodeElement) == 1) {
+		        
+    		    if(left != null) {
+    		        level = degree(rootNode.getLeft(), nodeElement);
+    		    } else level = null;
+    		    
+		    }
+		    
+		    if (rootNode.getValue().compareTo(nodeElement) == -1) {
+    		
+    		    if (right != null) {
+    		        level = degree(rootNode.getRight(), nodeElement);
+    		    } else level = null;
+		    }
+		        return level;
 		}
-		
-		if (right != null) {
-		    level += degree(rootNode.getRight(), nodeElement);
-		}
-		return level;
-	}
-	
-	private boolean verifica(Node<T> rootNode, T nodeElement) {
-	    boolean ver = false;
-	    if(rootNode == null || nodeElement == null) return false;
-        Node<T> left = rootNode.getLeft();
-        Node<T> right = rootNode.getRight();
-        
-        if(rootNode.getValue() == nodeElement) {
-            ver = true;
-            return ver;
-        }
-        if(left != null) {
-            ver = verifica(rootNode.getLeft(), nodeElement);
-        }
-        
-        if (right != null) {
-            ver = verifica(rootNode.getRight(), nodeElement);
-        }
-        return ver;
 	}
 
 	@Override
@@ -162,7 +147,20 @@ public class BinaryTree<T extends Comparable<T>> implements IBinaryTree<T> {
 
 	@Override
 	public Node<T> getByElement(Node<T> rootNode, T element) {
-		// TODO Auto-generated method stub
+	    if(rootNode == null){
+            return null;
+        } else if (rootNode.getValue() == element) {
+            return rootNode;
+        }
+
+        if(rootNode.getValue().compareTo(element) == 1 && rootNode!=null) {
+            Node<T> newNode = getByElement(rootNode.getLeft(), element);
+            if(newNode != null) return newNode;
+        }
+        if(rootNode.getValue().compareTo(element) == -1 && rootNode!=null) {
+            Node<T> newNode = getByElement(rootNode.getRight(), element);
+            if(newNode != null) return newNode;
+        }
 		return null;
 	}
 
